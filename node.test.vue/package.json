@@ -1,0 +1,16 @@
+{
+  "name": "devutility.test.vue",
+  "version": "0.0.0",
+  "scritps": {
+    "start": "node server"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "jquery": "^3.2.1",
+    "multer": "^1.3.0",
+    "vue": "^2.5.13"
+  }
+}

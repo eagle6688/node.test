@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Instance -- /instance/index.html</title>
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/node_modules/vue/dist/vue.min.js"></script>
+</head>
+
+<body style="margin-left: 20px">
+    <h2>Instance</h2>
+    <h3> 1. Data </h3>
+    <p>
+        When a Vue instance is created, it adds all the properties found in its data object to Vue’s reactivity system. When the
+        values of those properties change, the view will “react”, updating to match the new values.
+    </p>
+    <p id="p-data-result"></p>
+    <script>
+        var array = [];
+        var data = { a: 1 };
+
+        var vm = new Vue({
+            data: data
+        });
+
+        //same reference
+        array.push('vm.a == data.a: ' + (vm.a == data.a));
+
+        //change property will affect all of references
+        vm.a = 2;
+        array.push('data.a=' + data.a);
+
+        $('#p-data-result').html(array.join('<br />'));
+
+    </script>
+    <h3>2. Useful instance properties and methods of Vue.js</h3>
+    <p>
+        In addition to data properties, Vue instances expose a number of useful instance properties and methods. These are prefixed
+        with $ to differentiate them from user-defined properties.
+    </p>
+    <p id="example"></p>
+    <script>
+        data = { a: 1 };
+
+        vm = new Vue({
+            el: '#example',
+            data: data
+        });
+    </script>
+    <h4> 2.1 $data</h4>
+    <script>
+        document.write('vm.$data === data: ' + (vm.$data === data));
+    </script>
+    <h4> 2.2 $el</h4>
+    <script>
+        document.write("vm.$el === document.getElementById('example'): " + (vm.$el === document.getElementById('example')));
+    </script>
+    <h4> 2.3 $watch</h4>
+    <p>
+        <input id="btn-2-3-changeValue" type="button" value="change value">
+    </p>
+    <p id="p-2-3"></p>
+    <script>
+        vm.$watch('a', function (newValue, oldValue) {
+            $('#p-2-3').html('newValue: ' + newValue + ', oldValue: ' + oldValue);
+        });
+
+        $('#btn-2-3-changeValue').click(function () {
+            vm.a = 3;
+        });
+    </script>
+</body>
+
+</html>

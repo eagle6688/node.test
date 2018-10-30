@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>List -- /list/index.html</title>
+    <script src="/node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body style="margin-left: 20px">
+    <h2>List</h2>
+    <h3> 1. v-for with v-if </h3>
+    <p>
+        When they exist on the same node, v-for has a higher priority than v-if. That means the v-if will be run on each iteration
+        of the loop separately. This can be useful when you want to render nodes for only some items.
+    </p>
+    <ul id="ul-1">
+        <li v-for="item in items" v-if="item.gender">
+            {{ item.name }}
+        </li>
+    </ul>
+    <script>
+        var vm1 = new Vue({
+            el: '#ul-1',
+            data: {
+                items: [
+                    { name: 'Aldwin', gender: true },
+                    { name: 'FR', gender: false }
+                ]
+            }
+        });
+    </script>
+    <h3>2. v-for with a Component</h3>
+    <div id="div-2">
+        <input v-model="newTodoText" v-on:keyup.enter="addNewTodo" placeholder="Add a todo">
+        <ul>
+            <li is="todo-item" v-for="(todo, index) in todos" v-bind:key="todo.id" v-bind:title="todo.title" v-on:remove="todos.splice(index, 1)"></li>
+        </ul>
+    </div>
+    <script>
+        Vue.component('todo-item', {
+            template: '\
+            <li>\
+              {{ title }}\
+              <button v-on:click="$emit(\'remove\')">X</button>\
+            </li>\
+          ',
+            props: ['title']
+        });
+
+        var json = {
+            a: [
+                {
+                    a1: {
+                        a11: [1, 2, 3],
+                        a12: [1, 2, 3]
+                    },
+                    a2: [{ a21: '21' }]
+                },
+                {
+                    a3: {
+                        a31: [1, 2, 3],
+                        a32: [1, 2, 3]
+                    },
+                    a4: [{ a41: '41' }]
+                }
+            ],
+            b: {
+                b1: 'b1',
+                b2: 2
+            }
+        };
+
+        var vm2 = new Vue({
+            el: '#div-2',
+            data: {
+                newTodoText: '',
+                todos: [
+                    {
+                        id: 1,
+                        title: 'Do the dishes',
+                    },
+                    {
+                        id: 2,
+                        title: 'Take out the trash',
+                    },
+                    {
+                        id: 3,
+                        title: 'Mow the lawn'
+                    }
+                ],
+                json: json,
+                nextTodoId: 4,
+                test: {
+                    asd: 'asd',
+                    qwe: {
+                        qwe1: 'qwe1'
+                    }
+                }
+            },
+            methods: {
+                addNewTodo: function () {
+                    this.todos.push({
+                        id: this.nextTodoId++,
+                        title: this.newTodoText
+                    });
+
+                    this.newTodoText = '';
+                }
+            }
+        });
+
+        var restore = function (vueObject) {
+            var result = null;
+            var type = Object.prototype.toString.call(vueObject);
+
+            switch (type) {
+                case '[object Array]':
+                    result = toArray(vueObject);
+                    break;
+
+                case '[object Object]':
+                    result = toObject(vueObject);
+                    break;
+
+                default:
+                    result = vueObject;
+                    break;
+            }
+
+            function toArray(vueArray) {
+                var array = [];
+
+                for (var index in vueArray) {
+                    var item = restore(vueArray[index]);
+                    array.push(item);
+                }
+
+                return array;
+            }
+
+            function toObject(vueObject) {
+                var obj = new Object();
+
+                for (var index in vueObject) {
+                    var item = restore(vueObject[index]);
+                    obj[index] = item;
+                }
+
+                return obj;
+            }
+
+            return result;
+        };
+
+        console.log(JSON.stringify(restore(vm2.json)));
+    </script>
+</body>
+
+</html>

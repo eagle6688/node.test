@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Conditional Rendering -- /conditional/index.html</title>
+    <script src="/node_modules/vue/dist/vue.min.js"></script>
+</head>
+
+<body style="margin-left: 20px">
+    <h2>Conditional Rendering</h2>
+    <h3> 1. v-if on &lt;template&gt; </h3>
+    <p>
+        Because v-if is a directive, it has to be attached to a single element. But what if we want to toggle more than one element?
+        In this case we can use v-if on a &lt;template&gt; element, which serves as an invisible wrapper. The final rendered
+        result will not include the &lt;template&gt; element.
+    </p>
+    <div id="div-1">
+        <template v-if="ok">
+            <h1>Title</h1>
+            <p>Paragraph 1</p>
+            <p>Paragraph 2</p>
+        </template>
+    </div>
+    <script>
+        var vm1 = new Vue({
+            el: '#div-1',
+            data: {
+                ok: true
+            }
+        });
+    </script>
+</body>
+
+</html>

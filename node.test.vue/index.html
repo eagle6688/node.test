@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/vue/dist/vue.min.js"></script>
+</head>
+
+<body style="margin-left: 20px">
+    <h2>Vue</h2>
+    <h3> 1. Declarative render </h3>
+    <div id="app">
+        {{ message }}
+    </div>
+    <p>
+        <span>Change message: </span>
+        <input id="txt-message" type="text" value="">
+        <input id="btn-changemessage" type="button" value="change">
+    </p>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue!'
+            }
+        });
+
+        $('#btn-changemessage').click(function () {
+            app.message = $('#txt-message').val();
+        });
+    </script>
+    <h3> 2. v-bind </h3>
+    <div id="app-2">
+        <span v-bind:title="message">
+            鼠标悬停几秒钟查看此处动态绑定的提示信息！
+        </span>
+    </div>
+    <script>
+        var app2 = new Vue({
+            el: '#app-2',
+            data: {
+                message: '页面加载于 ' + new Date().toLocaleString()
+            }
+        })
+    </script>
+    <h3> 3. v-if </h3>
+    <div id="app-3">
+        <p v-if="seen">现在你看到我了</p>
+    </div>
+    <script>
+        var app3 = new Vue({
+            el: '#app-3',
+            data: {
+                seen: true
+            }
+        });
+    </script>
+    <h3> 4. v-for </h3>
+    <div id="app-4">
+        <ol>
+            <li v-for="todo in todos">
+                {{ todo.text }}
+            </li>
+        </ol>
+    </div>
+    <p>
+        <input id="btn-addOneEntry" type="button" value="add a new entry">
+    </p>
+    <script>
+        var app4 = new Vue({
+            el: '#app-4',
+            data: {
+                todos: [
+                    { text: '学习 JavaScript' },
+                    { text: '学习 Vue' },
+                    { text: '整个牛项目' }
+                ]
+            }
+        });
+
+        $('#btn-addOneEntry').click(function () {
+            app4.todos.push({ text: '新项目' });
+        });
+    </script>
+    <h3> 5. v-on </h3>
+    <div id="app-5">
+        <p>{{ message }}</p>
+        <button v-on:click="reverseMessage">逆转消息</button>
+    </div>
+    <script>
+        var app5 = new Vue({
+            el: '#app-5',
+            data: {
+                message: 'Hello Vue.js!'
+            },
+            methods: {
+                reverseMessage: function () {
+                    this.message = this.message.split('').reverse().join('')
+                }
+            }
+        });
+    </script>
+    <h3> 6. v-model </h3>
+    <div id="app-6">
+        <p>{{ message }}</p>
+        <input v-model="message">
+    </div>
+    <script>
+        var app6 = new Vue({
+            el: '#app-6',
+            data: {
+                message: 'Hello Vue!'
+            }
+        });
+    </script>
+    <h3> 7. component </h3>
+    <ol id="ol-component">
+        <todo-item></todo-item>
+    </ol>
+    <script>
+        Vue.component('todo-item', {
+            template: '<li>这是个待办项</li>'
+        });
+
+        new Vue({
+            el: '#ol-component',
+            components: ['todo-item']
+        });
+    </script>
+    <h3> 8. component with props </h3>
+    <div id="app-7">
+        <ol>
+            <todo-item-props v-for="item in groceryList" v-bind:todo="item" v-bind:key="item.id">
+            </todo-item-props>
+        </ol>
+    </div>
+    <script>
+        Vue.component('todo-item-props', {
+            props: ['todo'],
+            template: '<li>{{ todo.text }}</li>'
+        });
+
+        var app7 = new Vue({
+            el: '#app-7',
+            data: {
+                groceryList: [
+                    { id: 0, text: '蔬菜' },
+                    { id: 1, text: '奶酪' },
+                    { id: 2, text: '随便其它什么人吃的东西' }
+                ]
+            }
+        });
+    </script>
+</body>
+
+</html>

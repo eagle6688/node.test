@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Template -- /template/index.html</title>
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/node_modules/vue/dist/vue.min.js"></script>
+</head>
+
+<body style="margin-left: 20px">
+    <h2>Template</h2>
+    <h3> 1. Text </h3>
+    <p id="p-1">Message: {{ msg }} </p>
+    <script>
+        var vm1 = new Vue({
+            el: '#p-1',
+            data: {
+                msg: 'Hello World!'
+            }
+        });
+    </script>
+    <h4>1.1 v-once</h4>
+    <p id="p-1-1" v-once>bind once: {{ msg }}</p>
+    <script>
+        var vm11 = new Vue({
+            el: '#p-1-1',
+            data: {
+                msg: 'Hello World!'
+            }
+        });
+    </script>
+    <h3> 2. Html </h3>
+    <p id="p-2">Html: {{ rawHtml }} </p>
+    <script>
+        var vm2 = new Vue({
+            el: '#p-2',
+            data: {
+                rawHtml: '<span style="color: red">This should be red.</span>'
+            }
+        });
+    </script>
+    <h4>2.1 v-html</h4>
+    <p id="p-2-1" v-html="rawHtml"></p>
+    <script>
+        var vm21 = new Vue({
+            el: '#p-2-1',
+            data: {
+                rawHtml: '<span style="color: red">This should be red.</span>'
+            }
+        });
+    </script>
+    <h4>2.2 v-text</h4>
+    <p id="p-2-2" v-text="rawHtml"></p>
+    <script>
+        var vm22 = new Vue({
+            el: '#p-2-2',
+            data: {
+                rawHtml: '<span style="color: red">This should be red.</span>'
+            }
+        });
+    </script>
+    <h3> 3. v-bind </h3>
+    <h4>3.1 title</h4>
+    <p id="p-3-1" v-bind:title="title">v-bind title</p>
+    <script>
+        var vm31 = new Vue({
+            el: '#p-3-1',
+            data: {
+                title: 'v-bind title'
+            }
+        });
+    </script>
+    <h4>3.2 custom</h4>
+    <p id="p-3-2" v-bind:asd="asd">v-bind custom</p>
+    <script>
+        var vm32 = new Vue({
+            el: '#p-3-2',
+            data: {
+                asd: 'v-bind custom'
+            }
+        });
+    </script>
+    <h4>3.3 disabled</h4>
+    <p id="p-3-3">v-bind disabled:
+        <button v-bind:disabled="isDisabled">button</button>
+    </p>
+    <script>
+        var vm33 = new Vue({
+            el: '#p-3-3',
+            data: {
+                isDisabled: false
+            }
+        });
+    </script>
+    <h3>4. Shorthands</h3>
+    <h4>4.1 : substitute for v-bind</h4>
+    <h4>4.2 @ substitute for v-on</h4>
+</body>
+
+</html>
